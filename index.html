@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cody Pastries</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="logo.jpg" alt="Cody Pastries Logo" />
+      <span>Cody <strong>Pastries</strong></span>
+    </div>
+    <nav class="nav-icons">
+      <a href="index.html">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="tracking.html">
+        <i class="fas fa-truck"></i>
+        <span>Order Status</span>
+      </a>
+      <a href="cart.html">
+        <i class="fas fa-shopping-cart"></i>
+        <span>Cart</span>
+      </a>
+      <a href="login.html" class="login-btn">Log in</a>
+    </nav>      
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Delicious Treats, Delivered to Your Doorstep</h1>
+      <a href="products.html" class="order-btn">Order Now</a>
+    </div>
+  </section>    
+
+  <section class="featured">
+    <h2>Featured Products</h2>
+    <div class="products">
+      <div class="product-card">
+        <img src="a.jpg" alt="Cheesecake" />
+        <h3>Cheesecake</h3>
+        <p>₱40</p>
+      </div>
+      <div class="product-card">
+        <img src="b.jpg" alt="Brownies" />
+        <h3>Brownies</h3>
+        <p>₱35</p>
+      </div>
+      <div class="product-card">
+        <img src="c.jpg" alt="Egg Pie" />
+        <h3>Egg Pie</h3>
+        <p>₱55</p>
+      </div>
+      <div class="product-card">
+        <img src="d.jpg" alt="Chocolate Moist" />
+        <h3>Chocolate Moist</h3>
+        <p>₱45</p>
+      </div>
+    </div>
+    <div id="product-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h3 id="modal-title">Product Name</h3>
+        <p id="modal-info">Product description goes here.</p>
+      </div>
+    </div>    
+  </section>
+
+  <footer>
+    <p>Get 10% off on your first order!</p>
+  </footer>
+</body>
+
+<script>
+  const hero = document.querySelector('.hero');
+  const backgrounds = ['a.jpg', 'b.jpg', 'c.jpg', 'd.jpg'];
+  let index = 0;
+
+  function changeBackground() {
+    hero.style.backgroundImage = `url('${backgrounds[index]}')`;
+    index = (index + 1) % backgrounds.length;
+  }
+
+  changeBackground();
+  setInterval(changeBackground, 2000);
+
+  const modal = document.getElementById('product-modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalInfo = document.getElementById('modal-info');
+  const closeBtn = document.querySelector('.close-btn');
+
+  const productDetails = {
+    'a.jpg': {
+      name: 'Cheesecake Ingredients',
+      info: `For the crust:<br>
+        - Graham cracker crumbs (about 1½ cups)<br>
+        - Granulated sugar (2–3 tablespoons)<br>
+        - Melted butter (about 5 tablespoons)<br><br>
+        For the filling:<br>
+        - Cream cheese (about 24 oz or 3 blocks, softened)<br>
+        - Granulated sugar (about 1 cup)<br>
+        - Sour cream (½ cup, optional)<br>
+        - Vanilla extract (1–2 teaspoons)<br>
+        - Eggs (3 large)<br>
+        - Flour or cornstarch (1–2 tablespoons)<br><br>
+        Toppings:<br>
+        - Fresh fruit<br>
+        - Fruit preserves<br>
+        - Whipped cream<br>
+        - Chocolate ganache`
+    },
+    'b.jpg': {
+      name: 'Brownies Ingredients',
+      info: `Wet ingredients:<br>
+        - Butter (½–1 cup)<br>
+        - Granulated sugar (1–1½ cups)<br>
+        - Eggs (2–3 large)<br>
+        - Vanilla extract (1–2 teaspoons)<br><br>
+        Dry ingredients:<br>
+        - Flour (½–1 cup)<br>
+        - Cocoa powder (⅓–¾ cup)<br>
+        - Salt (¼ tsp)<br>
+        - Baking powder (optional)<br><br>
+        Optional:<br>
+        - Chocolate chips<br>
+        - Nuts<br>
+        - Sea salt flakes`
+    },
+    'c.jpg': {
+      name: 'Egg Pie Ingredients',
+      info: `Crust:<br>
+        - Flour (1½ cups)<br>
+        - Cold butter (½ cup)<br>
+        - Salt (¼ tsp)<br>
+        - Cold water (3–5 tbsp)<br><br>
+        Filling:<br>
+        - Evaporated milk (370ml)<br>
+        - Eggs (4 large + 1 white)<br>
+        - Sugar (¾–1 cup)<br>
+        - Vanilla extract (1 tsp)<br>
+        - Lemon zest (optional)<br><br>
+        Meringue:<br>
+        - 1 egg white<br>
+        - 1 tbsp sugar`
+    },
+    'd.jpg': {
+      name: 'Chocolate Moist Ingredients',
+      info: `Dry:<br>
+        - Flour – 1¾ cups<br>
+        - Sugar – 2 cups<br>
+        - Cocoa powder – ¾ cup<br>
+        - Baking soda – 2 tsp<br>
+        - Baking powder – 1 tsp<br>
+        - Salt – ½ tsp<br><br>
+        Wet:<br>
+        - Eggs – 2<br>
+        - Milk – 1 cup<br>
+        - Oil – ½ cup<br>
+        - Vanilla – 2 tsp<br>
+        - Hot coffee – 1 cup`
+    }
+  };
+
+  document.querySelectorAll('.product-card img').forEach(img => {
+    img.addEventListener('click', () => {
+      const src = img.getAttribute('src');
+      const details = productDetails[src];
+      if (details) {
+        modalTitle.textContent = details.name;
+        modalInfo.innerHTML = details.info; // 🔄 Changed from textContent
+        modal.style.display = 'block';
+      }
+    });
+  });
+
+  closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+</script>
+</html>

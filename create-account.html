@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account - Cody Pastries</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f9e4d4, #fcefe6);
+      margin: 0;
+    }
+
+    .create-account-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .create-account-box {
+      background: #fff;
+      padding: 30px 20px;
+      border-radius: 16px;
+      width: 320px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      position: relative;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .create-account-box h3 {
+      margin-top: 0;
+      text-align: center;
+      font-size: 22px;
+      color: #e07a5f;
+    }
+
+    .create-account-box form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .create-account-box form input {
+      width: 90%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border 0.3s ease;
+    }
+
+    .create-account-box form input:focus {
+      border-color: #e07a5f;
+      outline: none;
+    }
+
+    .buttons-container {
+      display: flex;
+      justify-content: space-between;
+      width: 90%;
+      margin-top: 10px;
+      gap: 10px;
+    }
+
+    .button-style {
+      padding: 12px;
+      background: linear-gradient(135deg, #e07a5f, #d1603d);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 16px;
+      box-shadow: 0 4px 12px rgba(224, 122, 95, 0.4);
+      transition: all 0.3s ease;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .button-style:hover {
+      background: linear-gradient(135deg, #d1603d, #e07a5f);
+      box-shadow: 0 6px 16px rgba(224, 122, 95, 0.6);
+      transform: translateY(-2px);
+    }
+
+    .back-button {
+      flex: 1;
+    }
+
+    .submit-button {
+      flex: 2;
+    }
+
+    .back-button i {
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="create-account-container">
+    <div class="create-account-box">
+      <h3>Create Account</h3>
+      <form onsubmit="event.preventDefault(); alert('Account created successfully!'); window.location.href='login.html';">
+        <input type="text" placeholder="Username" required />
+        <input type="text" placeholder="Email Address or CP Number" required />
+        <input type="password" placeholder="Create Password" required />
+        <input type="password" placeholder="Confirm Password" required />
+        
+        <div class="buttons-container">
+          <a class="button-style back-button" href="login.html">
+            <i class="fas fa-arrow-left"></i> Back
+          </a>
+          <button type="submit" class="button-style submit-button">Create Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

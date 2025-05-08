@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Products - Cody Pastries</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .product-page {
+      padding: 2rem;
+    }
+
+    .product-page h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      justify-items: center;
+    }
+
+    .product-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      text-align: center;
+      background-color: #fff;
+      min-height: 320px;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .product-card h3 {
+      min-height: 3rem;
+    }
+
+    .add-to-cart {
+      margin-top: auto;
+      background-color: #BFA47A;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      font-weight: bold;
+    }
+
+    /* Modal Styling */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.6);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      position: relative;
+    }
+
+    .modal-content img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .close {
+      position: absolute;
+      right: 5px;
+      top: -2px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #555;
+    }
+
+    select {
+      margin-top: 1rem;
+      padding: 8px;
+      font-size: 1rem;
+      border-radius: 5px;
+    }
+
+    .price {
+      margin: 1rem 0;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .confirm-btn {
+      background-color: #d2691e;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .confirm-btn:hover {
+      background-color: #b5581a;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="logo.jpg" alt="Cody Pastries Logo" />
+      <span>Cody <strong>Pastries</strong></span>
+    </div>
+    <nav class="nav-icons">
+      <a href="index.html"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="tracking.html"><i class="fas fa-truck"></i><span>Order Status</span></a>
+      <a href="cart.html"><i class="fas fa-shopping-cart"></i><span>Cart</span></a>
+      <a href="login.html" class="login-btn">Log in</a>
+    </nav>      
+  </header>
+
+  <main class="product-page">
+    <h1>Browse Our Pastries</h1>
+    <div class="product-grid">
+      <div class="product-card">
+        <img src="a.jpg" alt="Cheesecake" />
+        <h3>Cheesecake</h3>
+        <p>₱40</p>
+        <button class="add-to-cart" data-name="Cheesecake" data-price="40" data-image="a.jpg">Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="b.jpg" alt="Brownies" />
+        <h3>Brownies</h3>
+        <p>₱35</p>
+        <button class="add-to-cart" data-name="Brownies" data-price="35" data-image="b.jpg">Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="c.jpg" alt="Egg Pie" />
+        <h3>Egg Pie</h3>
+        <p>₱55</p>
+        <button class="add-to-cart" data-name="Egg Pie" data-price="55" data-image="c.jpg">Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="d.jpg" alt="Chocolate Moist" />
+        <h3>Chocolate Moist</h3>
+        <p>₱45</p>
+        <button class="add-to-cart" data-name="Chocolate Moist" data-price="45" data-image="d.jpg">Add to Cart</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Get 10% off on your first order!</p>
+  </footer>
+
+  <!-- Modal -->
+  <div id="checkoutModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <img id="modal-image" src="" alt="Product Image" />
+      <h2 id="modal-name">Product Name</h2>
+      <p>Base Price: ₱<span id="modal-base-price">0.00</span></p>
+      <label for="modal-size">Size:</label>
+      <select id="modal-size">
+        <option value="small">Small (₱0 extra)</option>
+        <option value="medium">Medium (₱10 extra)</option>
+        <option value="large">Large (₱20 extra)</option>
+      </select>
+      <div class="price">Total: ₱<span id="modal-total-price">0.00</span></div>
+      <button class="confirm-btn" onclick="confirmOrder()">Confirm</button>
+    </div>
+  </div>
+
+  <script>
+    let currentProduct = {};
+
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+      button.addEventListener('click', function () {
+        const name = this.dataset.name;
+        const price = parseFloat(this.dataset.price);
+        const image = this.dataset.image;
+
+        currentProduct = { name, price, image };
+
+        document.getElementById('modal-name').textContent = name;
+        document.getElementById('modal-base-price').textContent = price.toFixed(2);
+        document.getElementById('modal-image').src = image;
+
+        updateModalPrice();
+        document.getElementById('checkoutModal').style.display = 'block';
+      });
+    });
+
+    function closeModal() {
+      document.getElementById('checkoutModal').style.display = 'none';
+    }
+
+    function updateModalPrice() {
+      const size = document.getElementById('modal-size').value;
+      let extra = 0;
+      if (size === 'medium') extra = 10;
+      else if (size === 'large') extra = 20;
+      document.getElementById('modal-total-price').textContent = (currentProduct.price + extra).toFixed(2);
+    }
+
+    document.getElementById('modal-size').addEventListener('change', updateModalPrice);
+
+    function confirmOrder() {
+      const size = document.getElementById('modal-size').value;
+      const finalPrice = parseFloat(document.getElementById('modal-total-price').textContent);
+
+      const cartItem = {
+        name: `${currentProduct.name} (${size})`,
+        price: finalPrice,
+        image: currentProduct.image,
+        quantity: 1
+      };
+
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push(cartItem);
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      closeModal();
+      alert('Added to cart!');
+    }
+
+    window.onclick = function (event) {
+      const modal = document.getElementById('checkoutModal');
+      if (event.target == modal) {
+        closeModal();
+      }
+    }
+  </script>
+</body>
+</html>

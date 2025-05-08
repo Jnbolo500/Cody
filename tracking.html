@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Order Tracking - Cody Pastries</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    body {
+      background-color: #FFF5E1;
+      font-family: Arial, sans-serif;
+      margin: 0;
+    }
+    .tracking-container {
+      max-width: 700px;
+      margin: 2rem auto;
+      background-color: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .tracking-container h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    .tracking-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2rem;
+      position: relative;
+    }
+    .tracking-status::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 10%;
+      right: 10%;
+      height: 4px;
+      background-color: #dcdcdc;
+      z-index: 1;
+    }
+    .status-step {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      width: 25%;
+    }
+    .status-step i {
+      font-size: 2rem;
+      background-color: #d2691e;
+      color: white;
+      border-radius: 50%;
+      padding: 0.7rem;
+      margin-bottom: 0.5rem;
+    }
+    .status-step.active i {
+      background-color: #28a745;
+    }
+    .status-label {
+      font-size: 0.9rem;
+    }
+    .tracking-map {
+      margin-top: 2rem;
+      text-align: center;
+    }
+    .tracking-map img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+    .order-items {
+      margin-top: 2rem;
+    }
+    .order-items h3 {
+      margin-bottom: 1rem;
+    }
+    .order-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .order-item img {
+      height: 50px;
+      width: 50px;
+      border-radius: 8px;
+      object-fit: cover;
+      margin-right: 1rem;
+    }
+    .cancel-btn {
+      margin-top: 5px;
+      padding: 4px 8px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .cancel-btn:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="logo.jpg" alt="Cody Pastries Logo" />
+      <span>Cody <strong>Pastries</strong></span>
+    </div>
+    <nav class="nav-icons">
+      <a href="index.html"><i class="fas fa-home"></i><span>Home</span></a>
+      <a href="tracking.html" class="active"><i class="fas fa-truck"></i><span>Order Status</span></a>
+      <a href="cart.html"><i class="fas fa-shopping-cart"></i><span>Cart</span></a>
+      <a href="login.html" class="login-btn">Log in</a>
+    </nav>
+  </header>
+
+  <section class="tracking-container">
+    <h2>Track Your Order</h2>
+    <p><strong>Order #: </strong> <span id="order-number">Loading...</span></p>
+    <p><strong>Estimated Delivery: </strong> May 6, 2025</p>
+
+    <div class="tracking-status">
+      <div class="status-step active"><i class="fas fa-receipt"></i><div class="status-label">Order Received</div></div>
+      <div class="status-step"><i class="fas fa-shipping-fast"></i><div class="status-label">In Transit</div></div>
+      <div class="status-step"><i class="fas fa-map-marker-alt"></i><div class="status-label">Out for Delivery</div></div>
+      <div class="status-step"><i class="fas fa-check-circle"></i><div class="status-label">Delivered</div></div>
+    </div>
+
+    <div class="tracking-map">
+      <h3 id="current-location">Current Location: Tigaon Distribution Center</h3>
+      <img src="A_2D_digital_illustration_of_an_order_tracking_int.png" alt="Tracking Illustration" onerror="this.src='https://via.placeholder.com/600x200?text=Tracking+Map';">
+    </div>
+
+    <div class="order-items" id="order-items">
+      <h3>Ordered Items</h3>
+    </div>
+  </section>
+
+  <script>
+    const status = localStorage.getItem('orderStatus');
+    const orderNum = localStorage.getItem('orderNumber');
+    const lastOrder = JSON.parse(localStorage.getItem('lastOrder') || '[]');
+
+    // Set order number
+    document.getElementById('order-number').textContent = orderNum ? `#${orderNum}` : '#N/A';
+
+    // Set status steps
+    const statusSteps = document.querySelectorAll('.status-step');
+    if (status === 'processing') {
+      statusSteps.forEach((step, i) => step.classList.toggle('active', i === 0));
+      document.getElementById('current-location').textContent = "Current Status: Processing your order...";
+    } else if (status === 'in_transit') {
+      statusSteps.forEach((step, i) => step.classList.toggle('active', i <= 1));
+      document.getElementById('current-location').textContent = "Current Status: Your order is on the way!";
+    } else if (status === 'out_for_delivery') {
+      statusSteps.forEach((step, i) => step.classList.toggle('active', i <= 2));
+      document.getElementById('current-location').textContent = "Current Status: Out for delivery!";
+    } else if (status === 'delivered') {
+      statusSteps.forEach(step => step.classList.add('active'));
+      document.getElementById('current-location').textContent = "Current Status: Delivered!";
+    }
+
+    // Render order items
+    const container = document.getElementById('order-items');
+    if (lastOrder.length > 0) {
+      lastOrder.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'order-item';
+        div.innerHTML = `
+          <img src="${item.image}" alt="${item.name}">
+          <div>
+            <strong>${item.name}</strong><br>Qty: ${item.quantity}
+            <br><button class="cancel-btn" onclick="cancelItem(${index})">Cancel Order</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    } else {
+      container.innerHTML += "<p>No recent orders found.</p>";
+    }
+
+    function cancelItem(index) {
+      if (!confirm("Are you sure you want to cancel this item?")) return;
+
+      const order = JSON.parse(localStorage.getItem('lastOrder')) || [];
+      order.splice(index, 1);
+      localStorage.setItem('lastOrder', JSON.stringify(order));
+
+      if (order.length === 0) {
+        localStorage.removeItem('orderStatus');
+        localStorage.removeItem('orderNumber');
+      }
+
+      location.reload();
+    }
+  </script>
+</body>
+</html>

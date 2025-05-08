@@ -1,0 +1,211 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #FFF5E1;
+  color: #2d2d2d;
+}
+
+/* Header */
+header {
+  background-color: #4B2E2B;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  height: 40px;
+}
+
+nav a {
+  color: white;
+  margin: 0 1rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.login-btn {
+  background-color: #1d6433;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Hero */
+.hero {
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  background-size: cover;
+  background-position: center;
+  transition: background-image 1s ease-in-out;
+  position: relative;
+  z-index: 1;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.order-btn {
+  display: inline-block;
+  background-color: #A89E8D;
+  color: white;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+}  
+
+/* Featured */
+.featured {
+  padding: 2rem;
+}
+
+.featured h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.products {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.product-card {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 180px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.product-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+}
+
+footer {
+  background-color: #4B2E2B;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-weight: bold;
+  width: 100%;
+}
+
+/* Navigation icons */
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-icons a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+}
+
+.nav-icons a i {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.nav-icons a span {
+  font-size: 12px;
+}
+/* Hover effects for buttons */
+.login-btn:hover,
+.order-btn:hover,
+button:hover {
+  background-color: #6D4C41;
+  transition: background-color 0.3s ease;
+}
+
+/* Optional: make cursor pointer on all buttons */
+button,
+.login-btn,
+.order-btn {
+  cursor: pointer;
+}
+
+/* Hover effect for navigation links */
+.nav-icons a:hover {
+  opacity: 0.85;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content {
+  background-color: #fff8f0;
+  margin: 10% auto;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 500px;
+  position: relative;
+}
+
+.close-btn {
+  color: #aaa;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: #000;
+}

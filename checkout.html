@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout - Cody Pastries</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #fff8f0;
+    }
+
+    .checkout-container {
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .checkout-container img {
+      max-width: 100%;
+      max-height: 250px;
+      width: auto;
+      height: auto;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      margin-bottom: 0.5rem;
+    }
+
+    select {
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin: 1rem 0;
+      border-radius: 5px;
+    }
+
+    .price {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin: 1rem 0;
+    }
+
+    button {
+      background-color: #d2691e;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #b5581a;
+    }
+
+    .back-button {
+      background-color: #ccc;
+      color: #333;
+      margin-top: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="checkout-container">
+    <img id="product-image" src="" alt="Product image" />
+    <h2 id="product-name">Product Name</h2>
+    <p>Base Price: ₱<span id="base-price">0.00</span></p>
+
+    <label for="size">Select Size:</label>
+    <select id="size">
+      <option value="small">Small (₱0 extra)</option>
+      <option value="medium">Medium (₱10 extra)</option>
+      <option value="large">Large (₱20 extra)</option>
+    </select>
+
+    <div class="price">Total: ₱<span id="final-price">0.00</span></div>
+
+    <button onclick="confirmOrder()">Confirm Order</button>
+    <button onclick="goBack()" class="back-button">← Back</button>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get('name');
+    const price = parseFloat(urlParams.get('price')) || 0;
+    const image = urlParams.get('image') || '';
+
+    document.getElementById('product-name').textContent = name || 'Unknown Product';
+    document.getElementById('base-price').textContent = price.toFixed(2);
+    document.getElementById('product-image').src = image;
+
+    const finalPriceElement = document.getElementById('final-price');
+    const sizeSelect = document.getElementById('size');
+
+    function updatePrice() {
+      const size = sizeSelect.value;
+      let extra = 0;
+      if (size === 'medium') extra = 10;
+      else if (size === 'large') extra = 20;
+      finalPriceElement.textContent = (price + extra).toFixed(2);
+    }
+
+    sizeSelect.addEventListener('change', updatePrice);
+    updatePrice();
+
+    function confirmOrder() {
+      const selectedSize = sizeSelect.value;
+      const finalPrice = parseFloat(finalPriceElement.textContent);
+      const cartItem = {
+        name: `${name} (${selectedSize})`,
+        price: finalPrice,
+        image: image,
+        quantity: 1
+      };
+
+      const existingCart = JSON.parse(localStorage.getItem('cart')) || [];
+      existingCart.push(cartItem);
+      localStorage.setItem('cart', JSON.stringify(existingCart));
+      window.location.href = 'cart.html';
+    }
+
+    function goBack() {
+      window.history.back();
+    }
+    
+  </script>
+</body>
+</html>
